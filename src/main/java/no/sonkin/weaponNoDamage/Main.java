@@ -7,6 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -46,6 +50,7 @@ public class Main extends JavaPlugin implements Listener {
         items.add(Material.GOLDEN_HOE);
         items.add(Material.DIAMOND_HOE);
         items.add(Material.WOODEN_HOE);
+        
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -62,16 +67,9 @@ public class Main extends JavaPlugin implements Listener {
     }
     
     @EventHandler
-    void onPlayerPickupTool(EntityPickupItemEvent event) {
-        if(event.getEntity().getType() == EntityType.PLAYER && items.contains(event.getItem().getItemStack().getType())){
-            removeItemMeta(event.getItem().getItemStack());
-        }
-    }
-    
-    @EventHandler
-    void onCraftItem(CraftItemEvent event) {
-        if(items.contains(Objects.requireNonNull(event.getCurrentItem()).getType())){
-            removeItemMeta(event.getCurrentItem());
+    void onPlayerEquipTool(PlayerItemHeldEvent event) {
+        if(items.contains(event.getPlayer().getInventory().getItemInMainHand().getType())){
+            removeItemMeta(event.getPlayer().getInventory().getItemInMainHand());
         }
     }
 }
