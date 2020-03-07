@@ -1,0 +1,6 @@
+main: no.sonkin.weaponNoDamage.Main
+name: WeaponNoDamage
+version: 1.0
+api-version: 1.14
+author: Sonkin
+description: Makes swords and tools deal half a heart of damage
