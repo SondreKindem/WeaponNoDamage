@@ -60,4 +60,18 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
     }
+    
+    @EventHandler
+    void onPlayerPickupTool(EntityPickupItemEvent event) {
+        if(event.getEntity().getType() == EntityType.PLAYER && items.contains(event.getItem().getItemStack().getType())){
+            removeItemMeta(event.getItem().getItemStack());
+        }
+    }
+    
+    @EventHandler
+    void onCraftItem(CraftItemEvent event) {
+        if(items.contains(Objects.requireNonNull(event.getCurrentItem()).getType())){
+            removeItemMeta(event.getCurrentItem());
+        }
+    }
 }
