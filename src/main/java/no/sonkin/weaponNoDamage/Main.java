@@ -7,17 +7,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main extends JavaPlugin implements Listener {
-    private List<Material> items = new ArrayList<>();
+    private Set<Material> items = new HashSet<>();
 
     @Override
     public void onEnable(){
@@ -50,7 +47,7 @@ public class Main extends JavaPlugin implements Listener {
         items.add(Material.GOLDEN_HOE);
         items.add(Material.DIAMOND_HOE);
         items.add(Material.WOODEN_HOE);
-        
+
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -58,18 +55,28 @@ public class Main extends JavaPlugin implements Listener {
     void onPlayerHitWithTool(EntityDamageByEntityEvent event) {
         if(event.getDamager().getType() == EntityType.PLAYER){
             Player player = (Player) event.getDamager();
-            Material primaryItem = player.getInventory().getItemInMainHand().getType();
+            ItemStack primaryItem = player.getInventory().getItemInMainHand();
 
-            if(items.contains(primaryItem)){
+            Material material = primaryItem.getType();
+
+            if(items.contains(material)){
                 event.setDamage(0.5);
             }
         }
     }
-    
+
+    /*
     @EventHandler
     void onPlayerEquipTool(PlayerItemHeldEvent event) {
         if(items.contains(event.getPlayer().getInventory().getItemInMainHand().getType())){
             removeItemMeta(event.getPlayer().getInventory().getItemInMainHand());
         }
     }
+
+    private void removeItemMeta(ItemStack item){
+        ItemMeta meta = item.getItemMeta();
+        Objects.requireNonNull(meta).addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        item.setItemMeta(meta);
+    }
+    */
 }
