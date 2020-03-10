@@ -11,10 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
-import java.util.Set;
 
 public class Main extends JavaPlugin implements Listener {
-    private Set<Material> items = new HashSet<>();
+    private HashSet<Material> items = new HashSet<>();
 
     @Override
     public void onEnable(){
